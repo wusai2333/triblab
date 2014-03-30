@@ -1,4 +1,4 @@
-.PHONY: all fmt tags doc
+.PHONY: all rall fmt tags test testv lc doc turnin
 
 all:
 	go install ./...
@@ -26,3 +26,5 @@ doc:
 
 turnin:
 	git archive -o turnin.zip HEAD
+	chmod 600 turnin.zip
+	cp turnin.zip /classes/cse223b/sp14/labs/turnin/lab1/`whoami`.zip
