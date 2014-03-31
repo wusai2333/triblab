@@ -21,7 +21,10 @@ func TestRPC(t *testing.T) {
 		}
 	}()
 
-	<-ready
+	r := <-ready
+	if !r {
+		t.Fatal("not ready")
+	}
 
 	c := triblab.NewClient(addr)
 
