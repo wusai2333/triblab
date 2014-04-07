@@ -28,4 +28,4 @@ doc:
 turnin:
 	git archive -o turnin.zip HEAD
 	chmod 600 turnin.zip
-	cp turnin.zip /classes/cse223b/sp14/labs/turnin/lab1/`whoami`.zip
+	cp turnin.zip /classes/cse223b/sp14/labs/turnin/lab2/`whoami`.zip
