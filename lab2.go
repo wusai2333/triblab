@@ -17,4 +17,3 @@ func ServeKeeper(kc *trib.KeeperConfig) error {
 func NewFront(s trib.BinStorage) trib.Server {
 	return tribsol.NewFront(s)
 }
-

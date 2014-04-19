@@ -1,15 +1,15 @@
 package triblab_test
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 
-	"triblab"
+	"trib"
 	"trib/entries"
 	"trib/randaddr"
 	"trib/store"
 	"trib/tribtest"
-	"trib"
+	"triblab"
 )
 
 func TestBinStorage(t *testing.T) {
@@ -34,13 +34,13 @@ func TestBinStorage(t *testing.T) {
 	if !r {
 		t.Fatal("not ready")
 	}
-	
+
 	bc := triblab.NewBinClient(
 		[]string{addr1, addr2},
 	)
 
 	done := make(chan bool, 10)
-	
+
 	for i := 0; i < 10; i++ {
 		c := bc.Bin(fmt.Sprintf("b%d", i))
 		go func(s trib.Storage) {
