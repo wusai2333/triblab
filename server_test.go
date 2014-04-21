@@ -1,4 +1,4 @@
-package tribsol_test
+package triblab_test
 
 import (
 	"testing"
