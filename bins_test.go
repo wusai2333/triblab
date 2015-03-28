@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"testing"
 
+	"os"
 	"trib"
 	"trib/entries"
 	"trib/randaddr"
@@ -13,6 +14,10 @@ import (
 )
 
 func TestBinStorage(t *testing.T) {
+	if os.Getenv("TRIB_LAB") == "lab1" {
+		t.SkipNow()
+	}
+
 	addr1 := randaddr.Local()
 	addr2 := randaddr.Local()
 	for addr2 == addr1 {

@@ -1,4 +1,4 @@
-.PHONY: all rall fmt tags test testv lc doc turnin
+.PHONY: all rall fmt tags test-lab1 test-lab2 test-lab3 testv-lab1 testv-lab2 testv-lab3 lc doc turnin
 
 all:
 	go install ./... trib/...
@@ -12,11 +12,23 @@ fmt:
 tags:
 	gotags `find . -name "*.go"` > tags
 
-test:
-	go test ./...
+test-lab1:
+	TRIB_LAB=lab1 go test ./...
 
-testv:
-	go test -v ./...
+testv-lab1:
+	TRIB_LAB=lab1 go test -v ./...
+
+test-lab2:
+	TRIB_LAB=lab2 go test ./...
+
+testv-lab2:
+	TRIB_LAB=lab2 go test -v ./...
+
+test-lab3:
+	TRIB_LAB=lab3 go test ./...
+
+testv-lab3:
+	TRIB_LAB=lab3 go test -v ./...
 
 lc:
 	wc -l `find . -name "*.go"`

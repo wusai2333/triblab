@@ -3,6 +3,7 @@ package triblab_test
 import (
 	"testing"
 
+	"os"
 	"trib"
 	"trib/entries"
 	"trib/randaddr"
@@ -37,6 +38,10 @@ func startKeeper(t *testing.T, addr string) {
 }
 
 func TestServer(t *testing.T) {
+	if os.Getenv("TRIB_LAB") == "lab1" {
+		t.SkipNow()
+	}
+
 	addr := randaddr.Local()
 	ready := make(chan bool)
 	go func() {
@@ -55,6 +60,10 @@ func TestServer(t *testing.T) {
 }
 
 func TestServerConcur(t *testing.T) {
+	if os.Getenv("TRIB_LAB") == "lab1" {
+		t.SkipNow()
+	}
+
 	addr := randaddr.Local()
 	ready := make(chan bool)
 	go func() {
