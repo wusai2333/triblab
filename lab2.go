@@ -4,16 +4,14 @@ import (
 	"trib"
 )
 
-import "tribsol"
-
 func NewBinClient(backs []string) trib.BinStorage {
-	return tribsol.NewBinClient(backs)
+	panic("todo")
 }
 
 func ServeKeeper(kc *trib.KeeperConfig) error {
-	return tribsol.ServeKeeper(kc)
+	panic("todo")
 }
 
 func NewFront(s trib.BinStorage) trib.Server {
-	return tribsol.NewFront(s)
+	panic("todo")
 }
