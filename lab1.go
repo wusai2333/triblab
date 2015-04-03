@@ -1,6 +1,5 @@
 package triblab
 
-
 import (
 	"trib"
 )
