@@ -1,4 +1,6 @@
-.PHONY: all rall fmt tags test-lab1 test-lab2 test-lab3 testv-lab1 testv-lab2 testv-lab3 lc doc turnin
+.PHONY: all rall fmt tags lc doc \
+	test-lab1 test-lab2 test-lab3 testv-lab1 testv-lab2 testv-lab3 \
+	turnin-zip turnin-lab1 turnin-lab2 turnin-lab3
 
 all:
 	go install ./... trib/...
@@ -36,8 +38,20 @@ lc:
 doc:
 	godoc -http=:8000
 
-turnin:
-	@ echo "Turning in for `whoami`"
+turnin-zip:
+	@ echo "=== Zipping committed files..."
 	git archive -o turnin.zip HEAD
 	chmod 600 turnin.zip
-	cp turnin.zip /classes/cse223b/sp14/labs/turnin/lab2/`whoami`.zip
+
+turnin-lab1: turnin-zip
+	@ echo "=== Turning in Lab 1 for `whoami`"
+	cp turnin.zip /class/labs/turnin/lab1/`whoami`.zip
+
+turnin-lab2: turnin-zip
+	@ echo "=== Turning in Lab 2 for `whoami`"
+	cp turnin.zip /class/labs/turnin/lab2/`whoami`.zip
+
+turnin-lab3: turnin-zip
+	@ echo "=== Turning in Lab 3 for `whoami`"
+	cp turnin.zip /class/labs/turnin/lab3/`whoami`.zip
+
