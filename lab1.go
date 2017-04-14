@@ -15,7 +15,7 @@ func NewClient(addr string) trib.Storage {
 
 // Serve as a backend based on the given configuration
 func ServeBack(b *trib.BackConfig) error {
-	server := new(server)
+	server := NewServer()
 	e := server.RegisterName("Storage", b.Store)
 	rpc.HandleHTTP()
 
