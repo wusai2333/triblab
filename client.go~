@@ -1,9 +1,0 @@
-package triblab
-
-type client struct {
-}
-
-func (self *client) Get(key string, value *string) error {
-	panic("todo")
-}
-
