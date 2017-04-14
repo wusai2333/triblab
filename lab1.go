@@ -15,9 +15,9 @@ func NewClient(addr string) trib.Storage {
 
 // Serve as a backend based on the given configuration
 func ServeBack(b *trib.BackConfig) error {
-	server := rpc.NewServer()
-	rpc.HandleHTTP()
+	server := new(server)
 	e := server.RegisterName("Storage", b.Store)
+	rpc.HandleHTTP()
 
 	if e != nil {
 		fmt.Println(e)
@@ -26,9 +26,9 @@ func ServeBack(b *trib.BackConfig) error {
 		}
 		return e
 	}
-	
+
 	l, e := net.Listen("tcp", b.Addr)
-	
+
 	if e != nil {
 		fmt.Println(e)
 		if b.Ready != nil {
@@ -36,11 +36,10 @@ func ServeBack(b *trib.BackConfig) error {
 		}
 		return e
 	}
-	
+
 	if b.Ready != nil {
 		b.Ready <- true
 	}
-	
-	return http.Serve(l, nil)
-}
 
+	return http.Serve(l, server)
+}

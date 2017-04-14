@@ -9,15 +9,15 @@ type client struct {
 }
 
 func (self *client) Get(key string, value *string) error {
-     	conn, e := rpc.DialHTTP("tcp", self.Addr)
-     	if e != nil {
-     		return e
+	conn, e := rpc.DialHTTP("tcp", self.Addr)
+	if e != nil {
+		return e
 	}
 
-     	// perform the call
+	// perform the call
 	e = conn.Call("Storage.Get", key, value)
-     	if e != nil {
-     		conn.Close()
+	if e != nil {
+		conn.Close()
 		return e
 	}
 
@@ -25,39 +25,38 @@ func (self *client) Get(key string, value *string) error {
 
 	// close the connection
 	return conn.Close()
-
 }
 
 func (self *client) Clock(atLeast uint64, ret *uint64) error {
-	//connect to the server
+	// connect to the server
 	conn, e := rpc.DialHTTP("tcp", self.Addr)
 	if e != nil {
 		return e
 	}
 
-	//perform the call
-	conn.Call("Storage.Clock", atLeast, ret)
-	if e!=nil {
+	// perform the call
+	e = conn.Call("Storage.Clock", atLeast, ret)
+	if e != nil {
 		conn.Close()
 		return e
 	}
 
 	log.Println(self, ".Clock:", "atLeast:", atLeast, "ret:", *ret)
 
-	// Close the connection
+	// close the connection
 	return conn.Close()
 }
 
 func (self *client) Set(kv *trib.KeyValue, succ *bool) error {
-	//connect to the server
-	conn, e:= rpc.DialHTTP("tcp", self.Addr)
-	if e!=nil {
+	// connect to the server
+	conn, e := rpc.DialHTTP("tcp", self.Addr)
+	if e != nil {
 		return e
 	}
 
 	// perform the call
 	e = conn.Call("Storage.Set", kv, succ)
-	if e!= nil{
+	if e != nil {
 		conn.Close()
 		return e
 	}
@@ -68,16 +67,17 @@ func (self *client) Set(kv *trib.KeyValue, succ *bool) error {
 }
 
 func (self *client) Keys(p *trib.Pattern, r *trib.List) error {
-	// Connect to the server
+	// connect to the server
 	conn, e := rpc.DialHTTP("tcp", self.Addr)
-	if e!=nil {
+	if e != nil {
 		return e
 	}
+
 	r.L = nil
 
 	// perform the call
 	e = conn.Call("Storage.Keys", p, r)
-	if e!= nil {
+	if e != nil {
 		conn.Close()
 		return e
 	}
@@ -86,18 +86,20 @@ func (self *client) Keys(p *trib.Pattern, r *trib.List) error {
 		r.L = []string{}
 	}
 
-	log.Println(self, ".Keys:", "pattern:", *p, "ret:", *r)
+	log.Println(self, ".Keys:", "p:", *p, "r:", *r)
+
 	// close the connection
 	return conn.Close()
-
 }
 
-func (self *client) ListKeys(p* trib.Pattern, r *trib.List) error {
+func (self *client) ListKeys(p *trib.Pattern, r *trib.List) error {
 	// connect to the server
 	conn, e := rpc.DialHTTP("tcp", self.Addr)
-	if e!= nil {
+	if e != nil {
 		return e
 	}
+
+	r.L = nil
 
 	// perform the call
 	e = conn.Call("Storage.ListKeys", p, r)
@@ -117,13 +119,13 @@ func (self *client) ListKeys(p* trib.Pattern, r *trib.List) error {
 }
 
 func (self *client) ListGet(key string, ret *trib.List) error {
-	// connect the server
+	// connect to the server
 	conn, e := rpc.DialHTTP("tcp", self.Addr)
 	if e != nil {
 		return e
 	}
 
-	ret.L = []string{}
+	ret.L = nil
 
 	// perform the call
 	e = conn.Call("Storage.ListGet", key, ret)
@@ -131,12 +133,19 @@ func (self *client) ListGet(key string, ret *trib.List) error {
 		conn.Close()
 		return e
 	}
+
+	if ret.L == nil {
+		ret.L = []string{}
+	}
+
+	log.Println(self, ".ListGet:", "key:", key, "ret:", *ret)
+
 	// close the connection
 	return conn.Close()
 }
 
 func (self *client) ListAppend(kv *trib.KeyValue, succ *bool) error {
-	//connect the server
+	// connect to the server
 	conn, e := rpc.DialHTTP("tcp", self.Addr)
 	if e != nil {
 		return e
@@ -144,7 +153,7 @@ func (self *client) ListAppend(kv *trib.KeyValue, succ *bool) error {
 
 	// perform the call
 	e = conn.Call("Storage.ListAppend", kv, succ)
-	if e!= nil {
+	if e != nil {
 		conn.Close()
 		return e
 	}
@@ -156,7 +165,7 @@ func (self *client) ListAppend(kv *trib.KeyValue, succ *bool) error {
 }
 
 func (self *client) ListRemove(kv *trib.KeyValue, n *int) error {
-	//connect to the server
+	// connect to the server
 	conn, e := rpc.DialHTTP("tcp", self.Addr)
 	if e != nil {
 		return e
@@ -168,10 +177,10 @@ func (self *client) ListRemove(kv *trib.KeyValue, n *int) error {
 		conn.Close()
 		return e
 	}
-	log.Println(self, ".ListRemove:", "kv:",kv, "n:", *n)
+
+	log.Println(self, ".ListRemove:", "kv:", kv, "n:", *n)
 
 	// close the connection
 	return conn.Close()
 }
-
 var _ trib.Storage = new(client)
